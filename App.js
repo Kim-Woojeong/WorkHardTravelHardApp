@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { theme } from './colors';
 
 export default function App() {
@@ -34,14 +34,21 @@ export default function App() {
         </TouchableOpacity>
       </View>
       <View>
-        <TextInput 
+        <TextInput
           onChangeText={onChangeText} // text input의 텍스트가 바뀔때 호출되는 콜백. 바뀐 텍스트는 단 하나의 문자열로 전달되어짐.
           placeholder={working ? "Add a To Do" : "Where do you want to go?"} // text input이 입력되기 전에 렌더되는 string
           value={text} // text input을 위해 보여줄 값.
           onSubmitEditing={addToDo} // text 입력이 끝냈을때 호출되는 콜백
           returnKeyType="done"
-          style={styles.input}>
-          </TextInput>
+          style={styles.input}
+        />
+        <ScrollView>
+          {Object.keys(toDos).map((key) => (
+            <View style={styles.toDo}>
+              <Text style={styles.toDoText}>{toDos[key].text}</Text>
+            </View>
+          ))}  
+        </ScrollView>
       </View>
     </View>
   );
@@ -65,10 +72,22 @@ const styles = StyleSheet.create({
   },
   input : {
     backgroundColor : "white",
-    paddingVertical: 15,
-    paddingHorizontal: 20,
+    paddingVertical: 15, // 위아래
+    paddingHorizontal: 20, // 좌우
     borderRadius: 30,
-    marginTop: 20,
+    marginVertical: 20,
     fontSize: 18,
+  },
+  toDo: {
+    backgroundColor: theme.grey,
+    marginBottom: 10,
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    borderRadius: 15,
+  },
+  toDoText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "500",
   }
 });
