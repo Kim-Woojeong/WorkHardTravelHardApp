@@ -44,9 +44,10 @@ export default function App() {
     if(text === ""){
       return;
     }
-    const newToDos = Object.assign({}, toDos, {
+    const newToDos = {
+      ...toDos,
       [Date.now()]: {text, working},
-    });
+    };
     setToDos(newToDos);
     await saveToDos(newToDos); // await 붙여주기.
     setText(""); // 텍스트 input 초기화
