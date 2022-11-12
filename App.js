@@ -7,9 +7,20 @@ export default function App() {
 
   const [working, setWorking] = useState(true);
   const [text, setText] = useState("");
+  const [toDos, setToDos] = useState({});
   const work = () => setWorking(true);
   const travel = () => setWorking(false);
   const onChangeText = (payload) => {setText(payload)};
+  const addToDo = () => {
+    if(text === ""){
+      return;
+    }
+    const newToDos = Object.assign({}, toDos, {
+      [Date.now()]: {text, work: working}
+    });
+    setToDos(newToDos);
+    setText(""); // 텍스트 input 초기화
+  }
 
   return (
     <View style={styles.container}>
@@ -24,10 +35,13 @@ export default function App() {
       </View>
       <View>
         <TextInput 
-          onChangeText={onChangeText}
-          placeholder={working ? "Add a To Do" : "Where do you want to go?"}
-          value={text}
-          style={styles.input}></TextInput>
+          onChangeText={onChangeText} // text input의 텍스트가 바뀔때 호출되는 콜백. 바뀐 텍스트는 단 하나의 문자열로 전달되어짐.
+          placeholder={working ? "Add a To Do" : "Where do you want to go?"} // text input이 입력되기 전에 렌더되는 string
+          value={text} // text input을 위해 보여줄 값.
+          onSubmitEditing={addToDo} // text 입력이 끝냈을때 호출되는 콜백
+          returnKeyType="done"
+          style={styles.input}>
+          </TextInput>
       </View>
     </View>
   );
