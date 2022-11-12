@@ -31,9 +31,7 @@ export default function App() {
   const loadToDos = async (value) => {
     try{
       const jsonValue = await AsyncStorage.getItem(STORAGE_KEY);
-      console.log(s);
       jsonValue !== null ? setToDos(JSON.parse(jsonValue)) : null;  // null이 아니라면 json으로 바꾼 값들을 todo의 상태값으로 업뎃!
-
       setToDos(JSON.parse(jsonValue));
     } catch (e) {
       // saving error
